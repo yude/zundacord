@@ -5,6 +5,7 @@ services:
       - 50021:50021
   bot:
     build: .
+    image: ghcr.io/yude/zundacord:latest
     env_file:
       - .env
   
