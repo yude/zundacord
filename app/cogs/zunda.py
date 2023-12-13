@@ -3,7 +3,7 @@ import discord
 import requests
 import uuid
 import json
-import wave
+import asyncio
 
 class Zunda(commands.Cog):
     def __init__(self, bot):
@@ -31,16 +31,25 @@ class Zunda(commands.Cog):
             data = json.dumps(res_parameter.json())
         )
 
-        wf = wave.open(str(this_uuid)+'.wav', 'wb')
-        wf.setnchannels(1)
-        wf.setsampwidth(2)
-        wf.setframerate(24000)
-        wf.writeframes(res_voice.content)
-        wf.close()
+        with open(f"waves/{str(this_uuid)}.wav", mode="wb") as f:
+            f.write(res_voice.content)
 
-        with open(file=str(this_uuid)+".wav", mode="rb") as file:
-            await ctx.send("どうぞ〜〜〜", file=discord.File(file))
+        if ctx.author.voice is None:
+            with open(file=f"waves/{str(this_uuid)}.wav", mode="rb") as f:
+                await ctx.send(
+                    content = "どうぞ〜〜〜",
+                    file = discord.File(f),
+                    silent = True,
+                )
+        else:
+            v_client = await ctx.author.voice.channel.connect()
+            await asyncio.sleep(0.8)
+            source = discord.FFmpegPCMAudio(f"waves/{str(this_uuid)}.wav")
+            v_client.play(source)
+            await v_client.disconnect(force=True)
+            v_client.cleanup()
         
+
 
 async def setup(bot):
     await bot.add_cog(Zunda(bot))
