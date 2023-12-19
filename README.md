@@ -12,8 +12,6 @@
     ```
 
 1. Run `/zunda <text>` to execute zunda
-    - If you're in a voice channel, zundacord will join your channel and do zunda.
-    - If you're not, zundacord will send `<zunda>.wav`.
 
 ## License
 
