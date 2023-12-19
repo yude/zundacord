@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-EXTENTIONS = [
+EXTENSIONS = [
     "cogs.zunda",
 ]
 TOKEN = os.environ["TOKEN"]
